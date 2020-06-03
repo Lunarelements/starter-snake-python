@@ -89,7 +89,7 @@ def can_avoid_snakes(future_head, snake_bodies):
             return False
         # Check to see if move will hit a future head position of another snake
         # TODO - remove dependance on hardcoded name
-        if snake["name"] not "BabySnek":
+        if snake["name"] != "BabySnek":
             if future_head in predict_all_future_positions(snake["body"][0]):
                 return False
 
