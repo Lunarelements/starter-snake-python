@@ -1,7 +1,10 @@
 import os
 import random
-
 import cherrypy
+import battlesnake
+
+# Use a dictionary to avoid if/else when determining the change in position.
+MOVE_LOOKUP = {"left": -1, "right": 1, "up": 1, "down": -1}
 
 """
 This is a simple Battlesnake server written in Python.
@@ -15,7 +18,7 @@ class Battlesnake(object):
     def index(self):
         # This function is called when you register your Battlesnake on play.battlesnake.com
         # It controls your Battlesnake appearance and author permissions.
-        # TIP: If you open your Battlesnake URL in browser you should see this data
+        # TIP: If you open your Battlesnake URL in browser you should see this data.
         return {
             "apiversion": "1",
             "author": "Lunarelements",  # Battlesnake username
@@ -29,10 +32,9 @@ class Battlesnake(object):
     def start(self):
         # This function is called everytime your snake is entered into a game.
         # cherrypy.request.json contains information about the game that's about to be played.
-        # TODO: Use this function to decide how your snake is going to look on the board.
         data = cherrypy.request.json
 
-        print("START")
+        print(f"START OF NEW GAME {data['game']['id']}")
         return "ok"
 
     @cherrypy.expose
@@ -41,15 +43,32 @@ class Battlesnake(object):
     def move(self):
         # This function is called on every turn of a game. It's how your snake decides where to move.
         # Valid moves are "up", "down", "left", or "right".
-        # TODO: Use the information in cherrypy.request.json to decide your next move.
         data = cherrypy.request.json
 
-        # Choose a random direction to move in
-        possible_moves = ["up", "down", "left", "right"]
-        move = random.choice(possible_moves)
+        # Data structure holds head, body, then tail
+        your_body = data["you"]["body"]
+        snakes = data["board"]["snakes"]
+        print(f"Data in move is: {data}")
 
-        print(f"MOVE: {move}")
-        return {"move": move}
+        for i in range(50):
+            # Max out at 50 tries to avoid infinite loops. :P
+            move = battlesnake.choose_move_chaos(data)
+            safe = battlesnake.validate_move(your_body, data["board"], snakes, move)
+            if safe:
+                break
+
+        print(f"FINAL MOVE: {move}")
+
+        return {"move": move, "shout": "Urrah!"}
+
+
+        # # Choose a random direction to move in
+        # possible_moves = ["up", "down", "left", "right"]
+        # move = random.choice(possible_moves)
+
+        # print(f"MOVE: {move}")
+        # # TODO: Shout all urbasesrbelongingtous
+        # return {"move": move}
 
     @cherrypy.expose
     @cherrypy.tools.json_in()
@@ -58,7 +77,7 @@ class Battlesnake(object):
         # It's purely for informational purposes, you don't have to make any decisions here.
         data = cherrypy.request.json
 
-        print("END")
+        print("END OF GAME")
         return "ok"
 
 
