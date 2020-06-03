@@ -3,8 +3,6 @@ import random
 import cherrypy
 import battlesnake
 
-# Use a dictionary to avoid if/else when determining the change in position.
-MOVE_LOOKUP = {"left": -1, "right": 1, "up": 1, "down": -1}
 
 """
 This is a simple Battlesnake server written in Python.

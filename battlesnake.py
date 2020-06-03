@@ -5,6 +5,9 @@ https://github.com/aurorawalker/starter-snake-python
 """
 import random
 
+# Use a dictionary to avoid if/else when determining the change in position.
+MOVE_LOOKUP = {"left": -1, "right": 1, "up": 1, "down": -1}
+
 
 def predict_future_position(current_head, next_move):
     """
@@ -16,10 +19,10 @@ def predict_future_position(current_head, next_move):
 
     if next_move in ["left", "right"]:
         # Moving left means decreasing x by 1, right increase by 1
-        future_head["x"] = current_head["x"] + var.MOVE_LOOKUP[next_move]
+        future_head["x"] = current_head["x"] + MOVE_LOOKUP[next_move]
     elif next_move in ["up", "down"]:
         # moving up means increasing y by 1, down decrease by 1
-        future_head["y"] = current_head["y"] + var.MOVE_LOOKUP[next_move]
+        future_head["y"] = current_head["y"] + MOVE_LOOKUP[next_move]
     return future_head
 
 
