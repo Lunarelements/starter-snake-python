@@ -8,6 +8,9 @@ import random
 # Use a dictionary to avoid if/else when determining the change in position.
 MOVE_LOOKUP = {"left": -1, "right": 1, "up": 1, "down": -1}
 
+# List of all possible moves
+POSSIBLE_MOVES = ["up", "down", "left", "right"]
+
 
 def predict_future_position(current_head, next_move):
     """
@@ -24,6 +27,20 @@ def predict_future_position(current_head, next_move):
         # moving up means increasing y by 1, down decrease by 1
         future_head["y"] = current_head["y"] + MOVE_LOOKUP[next_move]
     return future_head
+
+
+def predict_all_future_positions(current_head):
+    """
+    Given the current snake head position,
+    returns a list of all possible snake head positions.
+    """
+
+    positions = []
+
+    for move in POSSIBLE_MOVES:
+        positions.append(predict_future_position(current_head, move))
+
+    return positions
 
 
 def can_avoid_wall(future_head, board):
@@ -60,18 +77,24 @@ def can_avoid_snakes(future_head, snake_bodies):
     if you are destined to occupy the same square another snake is about to?
     That might be logic for somwhere else - I'll have to think about that.
     @:param: snake_bodies list of dictionary of snake bodies
-       [ {'id': 'abc', 'name': 'Snek' ... 'body': [{'x': 1, 'y': 2}, {'x': 1, 'y': 3}, {'x': 1, 'y': 4}]},
-         {'id': 'efg', 'name': 'SNAKE' ...'body': [{'x': 4, 'y': 2}, {'x': 4, 'y': 3}, {'x': 4, 'y': 4}]},
-         {'id': 'hij', 'name': 'you' ...'body': [{'x': 1, 'y': 10}, {'x': 1, 'y': 9}, {'x': 1, 'y': 8}]}
+        [
+            {'id': 'abc', 'name': 'Snek' ... 'body': [{'x': 1, 'y': 2}, {'x': 1, 'y': 3}, {'x': 1, 'y': 4}]},
+            {'id': 'efg', 'name': 'SNAKE' ...'body': [{'x': 4, 'y': 2}, {'x': 4, 'y': 3}, {'x': 4, 'y': 4}]},
+            {'id': 'hij', 'name': 'you' ...'body': [{'x': 1, 'y': 10}, {'x': 1, 'y': 9}, {'x': 1, 'y': 8}]}
         ]
     """
     for snake in snake_bodies:
+        # Check to see if move will hit a currently known coordinate
         if future_head in snake["body"]:
             return False
+        # Check to see if move will hit a future head position of another snake
+        if future_head in predict_all_future_positions(snake["body"][0]):
+            return False
+
     return True
 
 
-def is_validate_move(your_body, board, snakes, next_move):
+def validate_move(your_body, board, snakes, next_move):
     """
     Basic set of logical checks that only prevent disaster. This function is not
     responsible for picking a move, it is responsible for saying if that move
@@ -97,7 +120,6 @@ def choose_move_chaos(data):
     keep the competition guessing!
     return a potential future_head of the snake as a dict {'x': 1, 'y': 1}
     """
-    possible_moves = ["up", "down", "left", "right"]
 
-    move = random.choice(possible_moves)
+    move = random.choice(POSSIBLE_MOVES)
     return move
