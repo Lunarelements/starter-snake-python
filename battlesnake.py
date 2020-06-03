@@ -79,8 +79,8 @@ def is_validate_move(your_body, board, snakes, next_move):
     future_head = predict_future_position(current_head, next_move)
     print(f"Future head on a {next_move} is as follows: {future_head}")
 
-    safe_wall = avoid_wall(future_head, board)
-    safe_body = avoid_snakes(future_head, snakes)
+    safe_wall = can_avoid_wall(future_head, board)
+    safe_body = can_avoid_snakes(future_head, snakes)
 
     print(f"future_head {future_head}: safe_wall {safe_wall}, safe_body {safe_body}")
     is_valid_move = safe_wall and safe_body

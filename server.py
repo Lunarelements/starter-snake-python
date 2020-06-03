@@ -53,7 +53,7 @@ class Battlesnake(object):
         for i in range(50):
             # Max out at 50 tries to avoid infinite loops. :P
             move = battlesnake.choose_move_chaos(data)
-            safe = battlesnake.validate_move(your_body, data["board"], snakes, move)
+            safe = battlesnake.is_validate_move(your_body, data["board"], snakes, move)
             if safe:
                 break
 
