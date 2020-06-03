@@ -91,8 +91,9 @@ def can_avoid_snakes(future_head, snake_bodies):
         # TODO - remove dependance on hardcoded name
         if snake["name"] != "BabySnek":
             # TODO - allow move if longer than snake
-            if future_other_head in predict_all_future_positions(snake["body"][0]):
-                print(f'Future head {future_head} collides with future move of {snake["name"]}: {future_other_head}')
+            all_future_positions = predict_all_future_positions(snake["body"][0])
+            if future_head in all_future_positions:
+                print(f'Future head {future_head} collides with future move of {snake["name"]}: {all_future_positions}')
                 return False
 
     return True
