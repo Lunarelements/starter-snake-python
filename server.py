@@ -52,7 +52,7 @@ class Battlesnake(object):
 
         # Iterate over moves backwards so that we can remove from the array without affecting order
         for move in reversed(moves):
-            validated = battlesnake.validate_move(data["board"], snakes, move)
+            validated = battlesnake.validate_move(data["board"], data["you"], snakes, move)
 
             # Remove move if it was not validated. This means the move would
             # destroy our snake

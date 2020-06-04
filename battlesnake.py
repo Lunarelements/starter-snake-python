@@ -44,12 +44,10 @@ def can_avoid_wall(future_head, board):
     return True
 
 
-def can_avoid_snakes(future_head, snake_bodies):
+def can_avoid_snake(future_head, snake_body):
     """
-    Return True of the proposed move avoids running into any list of snakes,
+    Return True if the proposed move avoids running into passed snake,
     False if the next move exists in a snake body square.
-    Recommend taking the default data from the board snakes as per the battlesnake
-    API. Note that the list of board snakes includes yourself!
     TODO - this is basic, may want to add in a check to see if any heads are
     about to eat food, and may extend by a square! Does the tail grow first,
     or does the head grow? Find out what happens in the game and see if we need
@@ -60,22 +58,17 @@ def can_avoid_snakes(future_head, snake_bodies):
     square to move into. LOOK INTO THIS LATER when implementing chicken snake
     approach, as that is a key concept with that!
 
-    @:param: snake_bodies list of dictionary of snake bodies
-        [
-            {'id': 'abc', 'name': 'Snek' ... 'body': [{'x': 1, 'y': 2}, {'x': 1, 'y': 3}, {'x': 1, 'y': 4}]},
-            {'id': 'efg', 'name': 'SNAKE' ...'body': [{'x': 4, 'y': 2}, {'x': 4, 'y': 3}, {'x': 4, 'y': 4}]},
-            {'id': 'hij', 'name': 'you' ...'body': [{'x': 1, 'y': 10}, {'x': 1, 'y': 9}, {'x': 1, 'y': 8}]}
-        ]
+    @:param: snake_body dictionary of snake stats
+        {'id': 'abc', 'name': 'Snek' ... 'body': [{'x': 1, 'y': 2}, {'x': 1, 'y': 3}, {'x': 1, 'y': 4}]},
     """
-    for snake in snake_bodies:
-        # Check to see if move will hit a currently known coordinate
-        if future_head in snake["body"]:
-            return False
+    # Check to see if move will hit a currently known coordinate from another snake
+    if future_head in snake["body"]:
+        return False
 
     return True
 
 
-def validate_move(board, snakes, move):
+def validate_move(board, you, snakes, move):
     """
     Basic set of logical checks that only prevent disaster. This function is not
     responsible for picking a move, it is responsible for saying if that move
@@ -90,33 +83,45 @@ def validate_move(board, snakes, move):
     if not avoided_walls:
         return False
 
-    # Move hits yourself or another snake and is never going to be a good choice.
-    # Return False so that it can be removed from the choices and to save compute time.
-    avoided_snakes = can_avoid_snakes(move.coordinates(), snakes)
-    print(f"future_head {move.coordinates()}: can_avoid_snakes {avoided_snakes}")
-    if not avoided_snakes:
-        return False
+    # Iterate through all the snakes and run collision and head to head validations
+    for snake in snakes:
 
-    # TODO REMOVE THIS WHEN ACTUAL SCORES EXIST
-    move.score += 0.1
+        # Move hits yourself or another snake and is never going to be a good choice.
+        # Return False so that it can be removed from the choices and to save compute time.
+        avoided_snake = can_avoid_snake(move.coordinates(), snake)
+        print(f"future_head {move.coordinates()}: can_avoid_snakes {snake} {avoided_snakes}")
+        if not avoided_snakes:
+            return False
+            
+        # Don't need to run head prediction on yourself
+        if(snake["name"] != you["name"]):
+            move.score += predict_head(you, move.coordinates(), snake)
 
     return True
 
 
-def predict_head():
-    pass
-     #   TODO - and on that note, what about anticipating another snakes head, and
+def predict_head(you, future_head, other):
+    other_moves = generate_possible_moves(other["body"])
+
+    # Our snakes head will collide with other snakes possible move
+    if future_head in other_moves:
+        print(f'Future head {future_head} collides with future move of {snake["name"]}: {other_moves}')
+        
+        # Their snake is shorter or equal to ours, this means death D:
+         #   TODO - and on that note, what about anticipating another snakes head, and
     #if you are destined to occupy the same square another snake is about to?
     #That might be logic for somwhere else - I'll have to think about that.
         #     # Check to see if move will hit a future head position of another snake
-        # # TODO - make the snake take a chance to hit other snake if the other moves run into wall or itself
-        # # TODO - remove dependance on hardcoded name
-        # if snake["name"] != "BabySnek":
-        #     # TODO - allow move if longer than snake
-        #     other_future_positions = predict_all_future_positions(snake["body"][0])
-        #     if future_head in all_future_positions:
-        #         print(f'Future head {future_head} collides with future move of {snake["name"]}: {other_future_positions}')
-        #         return False
+        # TODO: Give score if equal because chances are their snake will want to avoid if equal
+        # TODO: Look to see if food will affect this matchup
+        if other["length"] >= you["length"]:
+            # TODO - make the snake take a chance(score) to hit other snake if the other moves run into wall or itself
+            print(f'Snake\'s length is {you["length"]}, theirs is {other["length"]}. This possible collision is last resort.')
+            return -1;
+
+        return -0.33;
+
+    return 0
 
 
 def generate_possible_moves(body):
@@ -154,7 +159,8 @@ def pick_move(moves):
     print(f"Final moves under consideration: {moves}")
     
     # Placeholder move and move to do by default if no moves are available
-    best_move = Move("left", -1, -1)
+    # It uses the minimum int available in python
+    best_move = Move("left", -1, -1, -sys.maxint - 1)
 
     # Find the move with the best score
     for move in moves:
