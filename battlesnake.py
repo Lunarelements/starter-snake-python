@@ -90,7 +90,7 @@ def validate_move(board, you, snakes, move):
         # Move hits yourself or another snake and is never going to be a good choice.
         # Return False so that it can be removed from the choices and to save compute time.
         avoided_snake = can_avoid_snake(move.coordinates(), snake)
-        print(f"future_head {move.coordinates()}: can_avoid_snakes {snake} {avoided_snake}")
+        print(f"future_head {move.coordinates()}: can_avoid_snakes {snake['name']} {avoided_snake}")
         if not avoided_snake:
             return False
             
@@ -103,6 +103,7 @@ def validate_move(board, you, snakes, move):
 
 def predict_head(you, future_head, other):
     other_moves = generate_possible_moves(other["body"])
+    print(f'Predicting head of {other["name"]}: {other_moves}')
 
     # Our snakes head will collide with other snakes possible move
     if future_head in other_moves:
