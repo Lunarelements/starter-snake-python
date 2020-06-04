@@ -60,7 +60,7 @@ class Battlesnake(object):
 
         print(f"FINAL MOVE: {move}")
 
-        return {"move": move, "shout": "All your base are belong to us."}
+        return {"move": move.direction, "shout": "All your base are belong to us."}
 
 
     @cherrypy.expose
