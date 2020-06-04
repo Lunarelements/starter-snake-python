@@ -58,9 +58,10 @@ class Battlesnake(object):
                 moves.remove(move)
                 print(f"Removed move: {move}, it could not be validated. The moves left are {moves}")
 
-        print(f"FINAL MOVE: {move}")
+        final_move = battlesnake.pick_move(moves)
+        print(f"FINAL MOVE: {final_move}")
 
-        return {"move": battlesnake.pick_move(moves).direction, "shout": "All your base are belong to us."}
+        return {"move": final_move.direction, "shout": "All your base are belong to us."}
 
 
     @cherrypy.expose

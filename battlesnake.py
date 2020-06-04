@@ -159,5 +159,5 @@ def pick_move(moves):
     # Find the move with the best score
     for move in moves:
         if move.score > best_move.score:
-            best_move = move.score
+            best_move = move
     return best_move
