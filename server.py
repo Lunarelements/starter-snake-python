@@ -48,7 +48,7 @@ class Battlesnake(object):
         snakes = data["board"]["snakes"]
         print(f"Data in move is: {data}")
 
-        moves = battlesnake.generate_possible_moves()
+        moves = battlesnake.generate_possible_moves(your_body)
         for move in moves:
             validated = battlesnake.validate_move(data["board"], snakes, move)
 
