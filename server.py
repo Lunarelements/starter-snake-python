@@ -55,7 +55,7 @@ class Battlesnake(object):
             # Remove move if it was not validated. This means the move would
             # destroy our snake
             if not validated:
-                moves.remove(move)
+                # moves.remove(move)
                 print(f"Removed move: {move}, it could not be validated. The moves left are {moves}")
 
         final_move = battlesnake.pick_move(moves)
