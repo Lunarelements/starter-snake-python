@@ -48,25 +48,20 @@ class Battlesnake(object):
         snakes = data["board"]["snakes"]
         print(f"Data in move is: {data}")
 
-        for i in range(50):
-            # Max out at 50 tries to avoid infinite loops. :P
-            move = battlesnake.choose_move_chaos(data)
-            safe = battlesnake.validate_move(your_body, data["board"], snakes, move)
-            if safe:
-                break
+        moves = generate_possible_moves()
+        for move in moves:
+            validated = battlesnake.validate_move(data["board"], snakes, move)
+
+            # Remove move if it was not validated. This means the move would
+            # destroy our snake
+            if not validated:
+                print(f"Removed move: {move}, it could not be validated.")
+                moves.remove(move)
 
         print(f"FINAL MOVE: {move}")
 
-        return {"move": move, "shout": "Urrah!"}
+        return {"move": move, "shout": "All your base are belong to us."}
 
-
-        # # Choose a random direction to move in
-        # possible_moves = ["up", "down", "left", "right"]
-        # move = random.choice(possible_moves)
-
-        # print(f"MOVE: {move}")
-        # # TODO: Shout all urbasesrbelongingtous
-        # return {"move": move}
 
     @cherrypy.expose
     @cherrypy.tools.json_in()
