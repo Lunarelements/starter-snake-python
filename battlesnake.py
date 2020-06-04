@@ -106,7 +106,7 @@ def predict_head(you, future_head, other):
 
     # Our snakes head will collide with other snakes possible move
     if future_head in other_moves:
-        print(f'Future head {future_head} collides with future move of {snake["name"]}: {other_moves}')
+        print(f'Future head {future_head} collides with future move of {other["name"]}: {other_moves}')
         
         # Their snake is shorter or equal to ours, this means death D:
          #   TODO - and on that note, what about anticipating another snakes head, and
@@ -118,9 +118,9 @@ def predict_head(you, future_head, other):
         if other["length"] >= you["length"]:
             # TODO - make the snake take a chance(score) to hit other snake if the other moves run into wall or itself
             print(f'Snake\'s length is {you["length"]}, theirs is {other["length"]}. This possible collision is last resort.')
-            return -1;
+            return -1
 
-        return -0.33;
+        return -0.33
 
     return 0
 
@@ -161,7 +161,7 @@ def pick_move(moves):
     
     # Placeholder move and move to do by default if no moves are available
     # It uses the minimum int available in python
-    best_move = Move("left", -1, -1, -sys.maxint - 1)
+    best_move = Move("left", -1, -1, -sys.maxsize - 1)
 
     # Find the move with the best score
     for move in moves:
