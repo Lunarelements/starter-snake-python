@@ -44,7 +44,7 @@ def can_avoid_wall(future_head, board):
     return True
 
 
-def can_avoid_snake(future_head, snake_body):
+def can_avoid_snake(future_head, snake):
     """
     Return True if the proposed move avoids running into passed snake,
     False if the next move exists in a snake body square.
