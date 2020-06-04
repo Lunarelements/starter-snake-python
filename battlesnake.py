@@ -4,6 +4,7 @@ used by the server.py code. Modified based on Aurora Walker's code:
 https://github.com/aurorawalker/starter-snake-python
 """
 import random
+import sys
 from move import Move
 
 # Use a dictionary to avoid if/else when determining the change in position.
