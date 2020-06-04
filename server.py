@@ -49,13 +49,15 @@ class Battlesnake(object):
         print(f"Data in move is: {data}")
 
         moves = battlesnake.generate_possible_moves(your_body)
-        for move in moves:
+
+        # Iterate over moves backwards so that we can remove from the array without affecting order
+        for move in reversed(moves):
             validated = battlesnake.validate_move(data["board"], snakes, move)
 
             # Remove move if it was not validated. This means the move would
             # destroy our snake
             if not validated:
-                # moves.remove(move)
+                moves.remove(move)
                 print(f"Removed move: {move}, it could not be validated. The moves left are {moves}")
 
         final_move = battlesnake.pick_move(moves)
