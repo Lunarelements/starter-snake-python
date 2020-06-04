@@ -86,7 +86,7 @@ def validate_move(board, snakes, move):
     # Move hits a border and is never going to be a good choice. 
     # Return False so that it can be removed from the choices and to save compute time.
     avoided_walls = can_avoid_wall(move.coordinates(), board)
-    print(f"future_head {move.coordinates()}: can_avoid_wall {avoided_walls}")
+    print(f"future_head direction {move.direction} {move.coordinates()}: can_avoid_wall {avoided_walls}")
     if not avoided_walls:
         return False
 
