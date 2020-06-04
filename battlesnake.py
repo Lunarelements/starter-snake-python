@@ -104,6 +104,7 @@ def validate_move(board, snakes, move):
 
 
 def predict_head():
+    pass
      #   TODO - and on that note, what about anticipating another snakes head, and
     #if you are destined to occupy the same square another snake is about to?
     #That might be logic for somwhere else - I'll have to think about that.
