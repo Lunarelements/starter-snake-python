@@ -60,7 +60,7 @@ class Battlesnake(object):
 
         print(f"FINAL MOVE: {move}")
 
-        return {"move": pick_move(moves).direction, "shout": "All your base are belong to us."}
+        return {"move": battlesnake.pick_move(moves).direction, "shout": "All your base are belong to us."}
 
 
     @cherrypy.expose
