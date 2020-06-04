@@ -140,7 +140,7 @@ def generate_possible_moves(body):
         if future_position != neck:
             all_possible_moves.append(Move(next_move, future_position["x"], future_position["y"]))
 
-        print(f"Possible moves to be evaluated: {all_possible_moves}")
+    print(f"All possible moves to be evaluated: {all_possible_moves}")
 
     return all_possible_moves
 
