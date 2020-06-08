@@ -2,6 +2,9 @@ import os
 import random
 import cherrypy
 import battlesnake
+from node import Node
+from grid import Grid
+import pathfinding
 
 
 """
@@ -45,14 +48,24 @@ class Battlesnake(object):
 
         # Data structure holds head, body, then tail
         your_body = data["you"]["body"]
-        snakes = data["board"]["snakes"]
+        your_head = data["you"]["head"]
+        board = data["board"]
+        snakes = board["snakes"]
         print(f"Data in move is: {data}")
+
+        # Create a grid of nodes for to represent the map
+        board_grid = Grid(board["width"], board["height"])
 
         moves = battlesnake.generate_possible_moves(your_body)
 
+        # Run pathfinding algorith on every food point
+        for food in board["food"]:
+            path = pathfinding.find_path(board_grid, board_grid.grid[your_head["y"]][your_head["x"]], board_grid.grid[food["y"]][food["x"]])
+            board_grid.insert_path(path)
+
         # Iterate over moves backwards so that we can remove from the array without affecting order
         for move in reversed(moves):
-            validated = battlesnake.validate_move(data["board"], data["you"], snakes, move)
+            validated = battlesnake.validate_move(board, data["you"], snakes, move)
 
             # Remove move if it was not validated. This means the move would
             # destroy our snake

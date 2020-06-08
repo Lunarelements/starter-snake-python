@@ -111,19 +111,13 @@ def predict_head(you, future_head, other):
             print(f'Future head {future_head} collides with future move of {other["name"]}: {other_moves}')
         
             # Their snake is shorter or equal to ours, this means death D:
-            #   TODO - and on that note, what about anticipating another snakes head, and
-        #if you are destined to occupy the same square another snake is about to?
-        #That might be logic for somwhere else - I'll have to think about that.
-            #     # Check to see if move will hit a future head position of another snake
             # TODO: Give score if equal because chances are their snake will want to avoid if equal
             # TODO: Look to see if food will affect this matchup
             if other["length"] >= you["length"]:
                 # TODO - make the snake take a chance(score) to hit other snake if the other moves run into wall or itself
                 print(f'Snake\'s length is {you["length"]}, theirs is {other["length"]}. This possible collision is last resort.')
                 return -1
-
             return -0.33
-
     return 0
 
 
