@@ -45,7 +45,7 @@ class Grid:
         the space has more certainty.
         """
         for node in path:
-            self.grid[node.y][node.x].certainty += 0.1
+            self.grid[node.y][node.x].certainty += 0.5/len(path)
 
 
     def get_neighbours(self, node):
