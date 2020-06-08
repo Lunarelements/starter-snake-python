@@ -46,9 +46,7 @@ class Grid:
         """
         for node in path:
             self.grid[node.y][node.x].certainty += 0.1
-        
-        print(f"Current certainty:")
-        self.printGridCertainty()
+
 
     def get_neighbours(self, node):
         neighbours = []

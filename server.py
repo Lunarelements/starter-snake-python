@@ -62,6 +62,8 @@ class Battlesnake(object):
         for food in board["food"]:
             path = pathfinding.find_path(board_grid, board_grid.grid[your_head["y"]][your_head["x"]], board_grid.grid[food["y"]][food["x"]])
             board_grid.insert_path(path)
+        print(f"Current certainty after food:")
+        board_grid.printGridCertainty()
 
         # Iterate over moves backwards so that we can remove from the array without affecting order
         for move in reversed(moves):
