@@ -45,6 +45,8 @@ class Grid:
         the space has more certainty.
         """
         for node in path:
+            # Penalizes path based on distance from snake ie. length
+            # This will make sure the snake will most likely head to nearest food
             self.grid[node.y][node.x].certainty += 0.5/len(path)
 
 
