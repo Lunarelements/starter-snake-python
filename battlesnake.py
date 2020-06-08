@@ -117,7 +117,7 @@ def predict_head(you, future_head, other):
                 # TODO - make the snake take a chance(score) to hit other snake if the other moves run into wall or itself
                 print(f'Snake\'s length is {you["length"]}, theirs is {other["length"]}. This possible collision is last resort.')
                 return -1
-            return -0.33
+            return -0.3
     return 0
 
 
