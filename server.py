@@ -56,14 +56,14 @@ class Battlesnake(object):
         # Create a grid of nodes for to represent the map
         board_grid = Grid(board["width"], board["height"])
 
-        moves = battlesnake.generate_possible_moves(your_body)
-
         # Run pathfinding algorith on every food point
         for food in board["food"]:
             path = pathfinding.find_path(board_grid, board_grid.grid[your_head["y"]][your_head["x"]], board_grid.grid[food["y"]][food["x"]])
             board_grid.insert_path(path)
         print(f"Current certainty after food:")
         board_grid.printGridCertainty()
+
+        moves = battlesnake.generate_possible_moves(your_body)
 
         # Iterate over moves backwards so that we can remove from the array without affecting order
         for move in reversed(moves):
@@ -74,6 +74,10 @@ class Battlesnake(object):
             if not validated:
                 moves.remove(move)
                 print(f"Removed move: {move}, it could not be validated. The moves left are {moves}")
+
+        # Add scores from board to moves
+        for move in moves:
+            move.score += board_grid.grid[move.y][move.x].certainty
 
         final_move = battlesnake.pick_move(moves)
         print(f"FINAL MOVE: {final_move}")
