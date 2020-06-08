@@ -62,7 +62,7 @@ class Grid:
                 neighbour_y = node.y + y
 
                 if neighbour_x >= 0 and neighbour_x < self.width and neighbour_y >= 0 and neighbour_y < self.height:
-                    print(f'Neighbour at "x" : {neighbour_x}, "y" : {neighbour_y}')
+                    # print(f'Neighbour at "x" : {neighbour_x}, "y" : {neighbour_y}')
                     neighbours.append(self.grid[neighbour_y][neighbour_x])
         
         return neighbours
