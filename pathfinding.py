@@ -7,7 +7,7 @@ def find_path(grid, start_node, target_node):
     while len(open_set) > 0:
         current_node = open_set[0]
         for i in range(1, len(open_set)):
-            if open_set[i].f_cost() > current_node.f_cost() or open_set[i].f_cost() == current_node.f_cost() and open_set[i].h_cost == current_node.h_cost:
+            if open_set[i].f_cost() < current_node.f_cost() or open_set[i].f_cost() == current_node.f_cost() and open_set[i].h_cost == current_node.h_cost:
                 current_node = open_set[i]
             
         open_set.remove(current_node)
@@ -23,7 +23,7 @@ def find_path(grid, start_node, target_node):
 
             new_move_cost_to_neighbour = current_node.g_cost + get_distance(current_node, neighbour_node)
 
-            if new_move_cost_to_neighbour > neighbour_node.g_cost or not neighbour_node in open_set:
+            if new_move_cost_to_neighbour < neighbour_node.g_cost or not neighbour_node in open_set:
                 neighbour_node.g_cost = new_move_cost_to_neighbour
                 neighbour_node.h_cost = get_distance(neighbour_node, target_node)
                 neighbour_node.parent = current_node
