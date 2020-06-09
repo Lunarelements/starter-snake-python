@@ -66,16 +66,12 @@ class TestGrid(unittest.TestCase):
         expected.grid[0][0].certainty = -100
         expected.grid[0][1].safe = False
         expected.grid[0][1].certainty = -100
-        expected.grid[0][2].safe = False
-        expected.grid[0][2].certainty = -100
         expected.grid[4][5].safe = False
         expected.grid[4][5].certainty = -100
         expected.grid[3][5].safe = False
         expected.grid[3][5].certainty = -100
         expected.grid[3][6].safe = False
         expected.grid[3][6].certainty = -100
-        expected.grid[2][6].safe = False
-        expected.grid[2][6].certainty = -100
         result.insert_snakes(self.board["snakes"])
         self.assertEqual(expected, result)
 
@@ -88,12 +84,12 @@ class TestGrid(unittest.TestCase):
     def test_insert_path(self):
         result = copy.deepcopy(self.board_grid)
         expected = copy.deepcopy(self.board_grid)
-        expected.grid[0][0].certainty = 0.1
-        expected.grid[1][0].certainty = 0.1
-        expected.grid[2][0].certainty = 0.1
+        expected.grid[0][0].certainty = 0.5/3
+        expected.grid[1][0].certainty = 0.5/3
+        expected.grid[2][0].certainty = 0.5/3
         result.insert_path([Node(True, 0, 0), Node(True, 0, 1), Node(True, 0, 2)])
         self.assertEqual(expected, result)
-        
+
 
 if __name__ == '__main__':
     unittest.main()

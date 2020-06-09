@@ -32,9 +32,12 @@ class Grid:
         the space is not safe.
         """
         for snake in snakes:
-            for segment in snake["body"]:
-                self.grid[segment["y"]][segment["x"]].safe = False
-                self.grid[segment["y"]][segment["x"]].certainty = -100
+            for index, segment in enumerate(snake["body"]):
+                # Ignore tail, it will have moved by next turn
+                # TODO: Check if food is in front of snake, tail will not move
+                if(index != len(snake["body"]) - 1):
+                    self.grid[segment["y"]][segment["x"]].safe = False
+                    self.grid[segment["y"]][segment["x"]].certainty = -100
         
         print(f"Current board:")
         self.printGrid()
