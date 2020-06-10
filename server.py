@@ -75,6 +75,11 @@ class Battlesnake(object):
         print(f"Current certainty after food:")
         board_grid.printGridCertainty()
 
+        rooms = []
+        for move in moves:
+            rooms.append(pathfinding.find_room(board_grid, board_grid.grid[move.y][move.x], []))
+
+
         # Add scores from board to moves
         for move in moves:
             move.score += board_grid.grid[move.y][move.x].certainty

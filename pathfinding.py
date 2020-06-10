@@ -45,8 +45,8 @@ def retrace_path(start_node, target_node):
 
     return path[::-1]
 
-# def find_largest_room(grid, start_node, target_node):
-
+def count_room(grid, start_node):
+    pass
 #     open_set = []
 
 #     open_set.append(start_node)
@@ -56,3 +56,16 @@ def retrace_path(start_node, target_node):
 #             continue
 
 #         open_set.append(neighbour_node)
+
+def find_room(grid, start_node, room):
+    
+    room.append(start_node)
+
+    neighbours = grid.get_neighbours(start_node)
+
+    for neighbour_node in neighbours:
+        if not neighbour_node.safe or neighbour_node in room:
+            continue
+        find_room(grid, neighbour_node, room)
+
+    return room

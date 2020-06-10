@@ -52,6 +52,22 @@ class Grid:
             # This will make sure the snake will most likely head to nearest food
             self.grid[node.y][node.x].certainty += 0.5/len(path)
 
+    def insert_rooms(self, rooms):
+        """
+            Given a list of rooms, change the grid to show that
+            the room with the most space.
+        """
+
+        room_max_size = 0
+        room_max_index = 0
+
+        for index, room in enumerate(rooms):
+            if len(room) > room_max_size:
+                room_max_size = len(room)
+                room_max_index = index
+        
+        for node in rooms[room_max_index]:
+            self.grid[node.y][node.x].certainty += 0.2
 
     def get_neighbours(self, node):
         neighbours = []
