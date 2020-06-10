@@ -88,13 +88,6 @@ def validate_move(board, you, snakes, move):
     # Iterate through all the snakes and run collision and head to head validations
     for snake in snakes:
 
-        # Move hits yourself or another snake and is never going to be a good choice.
-        # Return False so that it can be removed from the choices and to save compute time.
-        avoided_snake = can_avoid_snake(move.coordinates(), snake)
-        print(f"future_head {move.coordinates()}: can_avoid_snakes {snake['name']} {avoided_snake}")
-        if not avoided_snake:
-            return False
-            
         # Don't need to run head prediction on yourself
         if(snake["name"] != you["name"]):
             move.score += predict_head(you, move.coordinates(), snake)

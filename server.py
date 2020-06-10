@@ -56,6 +56,9 @@ class Battlesnake(object):
         # Create a grid of nodes for to represent the map
         board_grid = Grid(board["width"], board["height"])
 
+        # Insert the snakes so that we know where we can't go
+        board_grid.insert_snakes(snakes)
+
         moves = battlesnake.generate_possible_moves(your_body)
 
         # Iterate over moves backwards so that we can remove from the array without affecting order
