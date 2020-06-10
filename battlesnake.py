@@ -63,7 +63,8 @@ def can_avoid_snake(future_head, snake):
         {'id': 'abc', 'name': 'Snek' ... 'body': [{'x': 1, 'y': 2}, {'x': 1, 'y': 3}, {'x': 1, 'y': 4}]},
     """
     # Check to see if move will hit a currently known coordinate from another snake
-    if future_head in snake["body"]:
+    # TODO: Check for food in front of snake head
+    if future_head in snake["body"] and future_head != snake["body"][len(snake["body"]) - 1]:
         return False
 
     return True
