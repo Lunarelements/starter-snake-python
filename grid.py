@@ -48,7 +48,7 @@ class Grid:
         Given a list of path, change the grid to show that
         the shortest path has more certainty.
         """
-        if paths is None or not paths:
+        if paths is None:
             return
 
         for node in min(paths, key=len):
@@ -59,7 +59,7 @@ class Grid:
             Given a list of rooms, change the grid to show that
             the room with the most space.
         """
-        if rooms is None or not rooms :
+        if rooms is None:
             return
         
         for node in max(rooms, key=len):
