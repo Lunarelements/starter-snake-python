@@ -25,7 +25,7 @@ class Grid:
         print('\n'.join([''.join([" . " if item.safe else " x " for item in row]) for row in reversed(self.grid)]))
 
     def printGridCertainty(self):
-        print('\n'.join([''.join([ f'{item.certainty:6.3f}' for item in row]) for row in reversed(self.grid)]))
+        print('\n'.join([''.join([ f'{item.certainty:8.2f}' for item in row]) for row in reversed(self.grid)]))
 
     def insert_snakes(self, snakes):
         """
