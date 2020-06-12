@@ -52,7 +52,7 @@ class Grid:
             return
 
         for node in min(paths, key=len):
-            self.grid[node.y][node.x].certainty += 0.5
+            self.grid[node.y][node.x].certainty += 0.2
 
     def insert_rooms(self, rooms):
         """
@@ -63,7 +63,7 @@ class Grid:
             return
         
         for node in max(rooms, key=len):
-            self.grid[node.y][node.x].certainty += 0.2
+            self.grid[node.y][node.x].certainty += 0.3
 
     def get_neighbours(self, node):
         neighbours = []
