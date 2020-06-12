@@ -72,7 +72,7 @@ class Battlesnake(object):
                 print(f"Removed move: {move}, it could not be validated. The moves left are {moves}")
 
         # Run pathfinding algorith on every food point
-        if data["you"]["health"] < 30:
+        # if data["you"]["health"] < 30:
             for food in board["food"]:
                 path = pathfinding.find_path(board_grid, board_grid.grid[your_head["y"]][your_head["x"]], board_grid.grid[food["y"]][food["x"]])
                 board_grid.insert_path(path)
