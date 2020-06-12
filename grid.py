@@ -51,6 +51,8 @@ class Grid:
         if paths is None or not paths:
             return
 
+        print(f'Paths are {paths}')
+
         path_min_size = 0
         path_min_index = 0
 
