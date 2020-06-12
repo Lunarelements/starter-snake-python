@@ -43,18 +43,24 @@ class Grid:
         print(f"Current board:")
         self.printGrid()
 
-    def insert_path(self, path):
+    def insert_paths(self, paths):
         """
-        Given a list of nodes, change the grid to show that
-        the space has more certainty.
+        Given a list of path, change the grid to show that
+        the shortest path has more certainty.
         """
-        if path is None:
+        if paths is None:
             return
 
-        for node in path:
-            # Penalizes path based on distance from snake ie. length
-            # This will make sure the snake will most likely head to nearest food
-            self.grid[node.y][node.x].certainty += 0.5/len(path)
+        path_min_size = 0
+        path_min_index = 0
+
+        for index, path in enumerate(paths):
+            if len(path) < path_min_size:
+                path_min_size = len(path)
+                path_min_index = index
+        
+        for node in paths[path_min_index]:
+            self.grid[node.y][node.x].certainty += 0.5
 
     def insert_rooms(self, rooms):
         """

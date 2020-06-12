@@ -5,7 +5,7 @@ https://github.com/aurorawalker/starter-snake-python
 """
 import random
 import sys
-from move import Move
+from node import Node
 
 # Use a dictionary to avoid if/else when determining the change in position.
 MOVE_LOOKUP = {"left": -1, "right": 1, "up": 1, "down": -1}
@@ -43,13 +43,13 @@ def validate_move(board, you, snakes, move):
 
         # Don't need to run head prediction on yourself
         if(snake["name"] != you["name"]):
-            move.score += predict_head(you, move.coordinates(), snake)
+            move.score += predict_head(you, move.coordinates(), snake, board.width, board.height)
 
     return True
 
 
-def predict_head(you, future_head, other):
-    other_moves = generate_possible_moves(other["body"])
+def predict_head(you, future_head, other, width, height):
+    other_moves = generate_possible_moves(other["body"], width, height)
     print(f'Predicting head of {other["name"]}: {other_moves}')
 
     # Our snakes head will collide with other snakes possible move
@@ -87,7 +87,7 @@ def generate_possible_moves(body, width, height):
 
         # If the future position is not in the snake's own neck add it to the list of possible moves
         if future_position != neck and future_position["x"] >= 0 and future_position["x"] < width and future_position["y"] >= 0 and future_position["y"] < height:
-            all_possible_moves.append(Move(next_move, future_position["x"], future_position["y"]))
+            all_possible_moves.append(Node(True, future_position["x"], future_position["y"]))
 
     print(f"All possible moves to be evaluated: {all_possible_moves}")
 

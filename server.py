@@ -59,19 +59,20 @@ class Battlesnake(object):
         # Insert the snakes so that we know where we can't go
         board_grid.insert_snakes(snakes)
 
-        moves = battlesnake.generate_possible_moves(your_body, board["width"], board["height"])
-
         rooms = []
-        for move in moves:
-            # Run pathfinding algorith on every food point
-        # if data["you"]["health"] < 30:
-            for food in board["food"]:
-                path = pathfinding.find_path(board_grid, board_grid.grid[your_head["y"]][your_head["x"]], board_grid.grid[food["y"]][food["x"]])
-                board_grid.insert_path(path)
-            print(f"Current certainty after food:")
-            board_grid.printGridCertainty()
+        food_paths = []
 
-            rooms.append(pathfinding.find_room(board_grid, board_grid.grid[move.y][move.x], []))
+        # Run pathfinding algorith on every food point and pick the shortest one
+        # if data["you"]["health"] < 30:
+        for food in board["food"]:
+            food_paths.append(pathfinding.find_path(board_grid, board_grid.grid[your_head["y"]][your_head["x"]], board_grid.grid[food["y"]][food["x"]]))
+            board_grid.insert_paths(food_paths)
+        print(f"Current certainty after food:")
+        board_grid.printGridCertainty()
+
+        moves = battlesnake.generate_possible_moves(your_body, board["width"], board["height"])
+        # for move in moves:
+        #     rooms.append(pathfinding.find_room(board_grid, board_grid.grid[move.y][move.x], []))
 
         board_grid.insert_rooms(rooms)
         print(f"Current certainty after room:")

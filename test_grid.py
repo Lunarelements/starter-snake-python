@@ -81,13 +81,13 @@ class TestGrid(unittest.TestCase):
         neighbours = self.board_grid.get_neighbours(Node(True, 5, 5))
         self.assertEqual([Node(True, 4, 5), Node(True, 5, 4), Node(True, 5, 6), Node(True, 6, 5)], neighbours)
 
-    def test_insert_path(self):
+    def test_insert_paths(self):
         result = copy.deepcopy(self.board_grid)
         expected = copy.deepcopy(self.board_grid)
-        expected.grid[0][0].certainty = 0.5/3
-        expected.grid[1][0].certainty = 0.5/3
-        expected.grid[2][0].certainty = 0.5/3
-        result.insert_path([Node(True, 0, 0), Node(True, 0, 1), Node(True, 0, 2)])
+        expected.grid[0][0].certainty = 0.5
+        expected.grid[1][0].certainty = 0.5
+        expected.grid[2][0].certainty = 0.5
+        result.insert_paths([[Node(True, 0, 0), Node(True, 0, 1), Node(True, 0, 2)], [Node(True, 0, 0), Node(True, 0, 1), Node(True, 0, 2), Node(True, 0, 3)]])
         self.assertEqual(expected, result)
 
     def test_insert_rooms(self):
