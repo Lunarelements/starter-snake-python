@@ -68,7 +68,7 @@ def predict_head(you, future_head, other):
     return 0
 
 
-def generate_possible_moves(body):
+def generate_possible_moves(body), width, height:
     """
     Generates all possible next moves for a snake given its body. It will remove the
     move that runs into its own neck. It will not check any other conditions of
@@ -86,7 +86,7 @@ def generate_possible_moves(body):
         print(f"Future head on a {next_move} is as follows: {future_position}")
 
         # If the future position is not in the snake's own neck add it to the list of possible moves
-        if future_position != neck:
+        if future_position != neck and future_position["x"] >= 0 and future_position["x"] < width and future_position["y"] >= 0 and future_position["y"] < height:
             all_possible_moves.append(Move(next_move, future_position["x"], future_position["y"]))
 
     print(f"All possible moves to be evaluated: {all_possible_moves}")

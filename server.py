@@ -59,7 +59,7 @@ class Battlesnake(object):
         # Insert the snakes so that we know where we can't go
         board_grid.insert_snakes(snakes)
 
-        moves = battlesnake.generate_possible_moves(your_body)
+        moves = battlesnake.generate_possible_moves(your_body, board["width"], board["height"])
 
         rooms = []
         for move in moves:
