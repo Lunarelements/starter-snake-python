@@ -77,7 +77,7 @@ class Battlesnake(object):
         print(f"Current certainty after room:")
         board_grid.printGridCertainty()
 
-        best_node = board_grid.pick_move(board_grid.grid[your_head.y][your_head.x])
+        best_node = board_grid.pick_move(board_grid.grid[your_head["y"]][your_head["x"]])
         
         final_move = best_node.get_direction(your_head)
         print(f"FINAL MOVE: {final_move}")
