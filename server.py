@@ -65,7 +65,9 @@ class Battlesnake(object):
         # Run pathfinding algorith on every food point and pick the shortest one
         # if data["you"]["health"] < 30:
         for food in board["food"]:
-            food_paths.append(pathfinding.find_path(board_grid, board_grid.grid[your_head["y"]][your_head["x"]], board_grid.grid[food["y"]][food["x"]]))
+            path = pathfinding.find_path(board_grid, board_grid.grid[your_head["y"]][your_head["x"]], board_grid.grid[food["y"]][food["x"]])
+            if path not None:
+                food_paths.append(path)
         
         board_grid.insert_paths(food_paths)
         print(f"Current certainty after food:")

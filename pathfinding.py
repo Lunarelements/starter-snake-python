@@ -45,18 +45,6 @@ def retrace_path(start_node, target_node):
 
     return path[::-1]
 
-def count_room(grid, start_node):
-    pass
-#     open_set = []
-
-#     open_set.append(start_node)
-
-#     for neighbour_node in grid.get_neighbours(current_node):
-#         if not neighbour_node.safe or neighbour_node in open_set:
-#             continue
-
-#         open_set.append(neighbour_node)
-
 def find_room(grid, start_node, room):
     
     room.append(start_node)
