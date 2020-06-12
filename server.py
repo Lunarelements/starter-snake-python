@@ -66,7 +66,7 @@ class Battlesnake(object):
         # if data["you"]["health"] < 30:
         for food in board["food"]:
             path = pathfinding.find_path(board_grid, board_grid.grid[your_head["y"]][your_head["x"]], board_grid.grid[food["y"]][food["x"]])
-            if path not None:
+            if path is not None:
                 food_paths.append(path)
         
         board_grid.insert_paths(food_paths)
