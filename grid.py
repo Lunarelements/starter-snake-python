@@ -51,17 +51,7 @@ class Grid:
         if paths is None or not paths:
             return
 
-        print(f'Paths are {paths}')
-
-        path_min_size = 0
-        path_min_index = 0
-
-        for index, path in enumerate(paths):
-            if len(path) < path_min_size:
-                path_min_size = len(path)
-                path_min_index = index
-        
-        for node in paths[path_min_index]:
+        for node in min(paths, key=len):
             self.grid[node.y][node.x].certainty += 0.5
 
     def insert_rooms(self, rooms):
@@ -71,16 +61,8 @@ class Grid:
         """
         if rooms is None or not rooms :
             return
-
-        room_max_size = 0
-        room_max_index = 0
-
-        for index, room in enumerate(rooms):
-            if len(room) > room_max_size:
-                room_max_size = len(room)
-                room_max_index = index
         
-        for node in rooms[room_max_index]:
+        for node in max(rooms, key=len):
             self.grid[node.y][node.x].certainty += 0.2
 
     def get_neighbours(self, node):
