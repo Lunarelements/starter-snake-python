@@ -25,3 +25,8 @@ class Node:
     
     def coordinates(self):
         return {'x': self.x, 'y': self.y}
+
+    def get_direction(self, head):
+        if(head["x"] == self.x):
+            return "up" if self.y - head["y"] > 0 else "down"
+        return "right" if self.x - head["x"] > 0 else "left"

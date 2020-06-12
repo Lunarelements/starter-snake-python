@@ -30,46 +30,6 @@ def predict_future_position(current_head, next_move):
         future_head["y"] = current_head["y"] + MOVE_LOOKUP[next_move]
     return future_head
 
-
-def can_avoid_wall(future_head, board):
-    """
-    Check to sees if the proposed future_head will hit the board wall.
-    Return True if the proposed future_head avoids a wall, False if it means
-    you will hit a wall.
-    """
-    x = future_head["x"]
-    y = future_head["y"]
-
-    if x < 0 or y < 0 or x > (board["width"] - 1) or y > (board["height"] - 1):
-        return False
-    return True
-
-
-def can_avoid_snake(future_head, snake):
-    """
-    Return True if the proposed move avoids running into passed snake,
-    False if the next move exists in a snake body square.
-    TODO - this is basic, may want to add in a check to see if any heads are
-    about to eat food, and may extend by a square! Does the tail grow first,
-    or does the head grow? Find out what happens in the game and see if we need
-    to check for if a snake suddenly grows.
-    TODO - what about snake tails leaving in the next move? A tail may be a
-    safe place to move into (assuming no food as in above scenario). In which
-    case, this logic needs to be modified to exclude the tail, as that is a safe
-    square to move into. LOOK INTO THIS LATER when implementing chicken snake
-    approach, as that is a key concept with that!
-
-    @:param: snake_body dictionary of snake stats
-        {'id': 'abc', 'name': 'Snek' ... 'body': [{'x': 1, 'y': 2}, {'x': 1, 'y': 3}, {'x': 1, 'y': 4}]},
-    """
-    # Check to see if move will hit a currently known coordinate from another snake
-    # TODO: Check for food in front of snake head
-    if future_head in snake["body"] and future_head != snake["body"][len(snake["body"]) - 1]:
-        return False
-
-    return True
-
-
 def validate_move(board, you, snakes, move):
     """
     Basic set of logical checks that only prevent disaster. This function is not
@@ -77,13 +37,6 @@ def validate_move(board, you, snakes, move):
     is desireable by changing the moves certainty score.
     Return True if scored fully, False if not. (and move should be removed from list)
     """
-
-    # Move hits a border and is never going to be a good choice. 
-    # Return False so that it can be removed from the choices and to save compute time.
-    avoided_walls = can_avoid_wall(move.coordinates(), board)
-    print(f"future_head direction {move.direction} {move.coordinates()}: can_avoid_wall {avoided_walls}")
-    if not avoided_walls:
-        return False
 
     # Iterate through all the snakes and run collision and head to head validations
     for snake in snakes:
@@ -139,22 +92,3 @@ def generate_possible_moves(body):
     print(f"All possible moves to be evaluated: {all_possible_moves}")
 
     return all_possible_moves
-
-def pick_move(moves):
-    """
-    Find the best move from the list by certainty score. This is the move we
-    would want our snake to take.
-    Return the move with the best score.
-    """
-
-    print(f"Final moves under consideration: {moves}")
-    
-    # Placeholder move and move to do by default if no moves are available
-    # It uses the minimum int available in python
-    best_move = Move("left", -1, -1, -sys.maxsize - 1)
-
-    # Find the move with the best score
-    for move in moves:
-        if move.score > best_move.score:
-            best_move = move
-    return best_move

@@ -1,4 +1,5 @@
 from node import Node
+import random
 
 class Grid:
 
@@ -88,3 +89,22 @@ class Grid:
                     neighbours.append(self.grid[neighbour_y][neighbour_x])
         
         return neighbours
+
+    def pick_move(self, head):
+        """
+        Find the best move from the grid by certainty score. This is the move we
+        would want our snake to take.
+        Return the move with the best score.
+        """
+
+        neighbours = self.get_neighbours(head)
+        # Give random order so that ties don't always go the same direction
+        random.shuffle(neighbours)
+
+        best_node = neighbours[0]
+
+        # Find the node with the best score
+        for node in neighbours:
+            if node.certainty > best_node.certainty:
+                best_node = node
+        return best_node

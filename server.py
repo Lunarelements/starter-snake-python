@@ -61,17 +61,9 @@ class Battlesnake(object):
 
         moves = battlesnake.generate_possible_moves(your_body)
 
-        # Iterate over moves backwards so that we can remove from the array without affecting order
-        for move in reversed(moves):
-            validated = battlesnake.validate_move(board, data["you"], snakes, move)
-
-            # Remove move if it was not validated. This means the move would
-            # destroy our snake
-            if not validated:
-                moves.remove(move)
-                print(f"Removed move: {move}, it could not be validated. The moves left are {moves}")
-
-        # Run pathfinding algorith on every food point
+        rooms = []
+        for move in moves:
+            # Run pathfinding algorith on every food point
         # if data["you"]["health"] < 30:
             for food in board["food"]:
                 path = pathfinding.find_path(board_grid, board_grid.grid[your_head["y"]][your_head["x"]], board_grid.grid[food["y"]][food["x"]])
@@ -79,22 +71,18 @@ class Battlesnake(object):
             print(f"Current certainty after food:")
             board_grid.printGridCertainty()
 
-        rooms = []
-        for move in moves:
             rooms.append(pathfinding.find_room(board_grid, board_grid.grid[move.y][move.x], []))
 
         board_grid.insert_rooms(rooms)
         print(f"Current certainty after room:")
         board_grid.printGridCertainty()
 
-        # Add scores from board to moves
-        for move in moves:
-            move.score += board_grid.grid[move.y][move.x].certainty
-
-        final_move = battlesnake.pick_move(moves)
+        best_node = board_grid.pick_move(board_grid.grid[your_head.y][your_head.x])
+        
+        final_move = best_node.get_direction(your_head)
         print(f"FINAL MOVE: {final_move}")
 
-        return {"move": final_move.direction, "shout": "All your base are belong to us."}
+        return {"move": final_move, "shout": "All your base are belong to us."}
 
 
     @cherrypy.expose

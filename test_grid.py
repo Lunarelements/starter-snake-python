@@ -101,6 +101,15 @@ class TestGrid(unittest.TestCase):
         result.printGridCertainty()
         self.assertEqual(expected, result)
 
+    def test_pick_move(self):
+        result = copy.deepcopy(self.board_grid)
+        result.grid[0][0].certainty = 0.2
+        result.grid[1][0].certainty = 0.3
+        result.grid[1][1].certainty = 0.5
+        result.grid[0][1].certainty = 0.4
+        best_node = result.pick_move(result.grid[0][0])
+        result.printGridCertainty()
+        self.assertEqual(result.grid[0][1], best_node)
 
 if __name__ == '__main__':
     unittest.main()

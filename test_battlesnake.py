@@ -59,11 +59,5 @@ class TestBattlesnake(unittest.TestCase):
             [Move("up", 0, 1), Move("down", 0, -1), Move("left", -1, 0)]
         )
 
-    def test_can_avoid_wall(self):
-        self.assertTrue(battlesnake.can_avoid_wall({"x": 0, "y" : 0}, self.board))
-        self.assertFalse(battlesnake.can_avoid_wall({"x": -1, "y" : 0}, self.board))
-        self.assertFalse(battlesnake.can_avoid_wall({"x": self.board["width"], "y" : 0}, self.board))
-        self.assertFalse(battlesnake.can_avoid_wall({"x": 2, "y" : self.board["height"] + 4}, self.board))
-
 if __name__ == '__main__':
     unittest.main()
