@@ -66,7 +66,7 @@ class Battlesnake(object):
         # if data["you"]["health"] < 30:
         for food in board["food"]:
             food_paths.append(pathfinding.find_path(board_grid, board_grid.grid[your_head["y"]][your_head["x"]], board_grid.grid[food["y"]][food["x"]]))
-            board_grid.insert_paths(food_paths)
+        board_grid.insert_paths(food_paths)
         print(f"Current certainty after food:")
         board_grid.printGridCertainty()
 
