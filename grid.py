@@ -47,6 +47,9 @@ class Grid:
         Given a list of nodes, change the grid to show that
         the space has more certainty.
         """
+        if path is None:
+            return
+
         for node in path:
             # Penalizes path based on distance from snake ie. length
             # This will make sure the snake will most likely head to nearest food
