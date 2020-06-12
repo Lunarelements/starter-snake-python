@@ -71,8 +71,8 @@ class Battlesnake(object):
         board_grid.printGridCertainty()
 
         moves = battlesnake.generate_possible_moves(your_body, board["width"], board["height"])
-        # for move in moves:
-        #     rooms.append(pathfinding.find_room(board_grid, board_grid.grid[move.y][move.x], []))
+        for move in moves:
+            rooms.append(pathfinding.find_room(board_grid, board_grid.grid[move.y][move.x], []))
 
         board_grid.insert_rooms(rooms)
         print(f"Current certainty after room:")
