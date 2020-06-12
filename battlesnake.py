@@ -68,7 +68,7 @@ def predict_head(you, future_head, other):
     return 0
 
 
-def generate_possible_moves(body), width, height:
+def generate_possible_moves(body, width, height):
     """
     Generates all possible next moves for a snake given its body. It will remove the
     move that runs into its own neck. It will not check any other conditions of
