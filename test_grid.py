@@ -90,6 +90,17 @@ class TestGrid(unittest.TestCase):
         result.insert_path([Node(True, 0, 0), Node(True, 0, 1), Node(True, 0, 2)])
         self.assertEqual(expected, result)
 
+    def test_insert_rooms(self):
+        result = copy.deepcopy(self.board_grid)
+        expected = copy.deepcopy(self.board_grid)
+        expected.grid[0][0].certainty = 0.2
+        expected.grid[1][0].certainty = 0.2
+        expected.grid[1][1].certainty = 0.2
+        expected.grid[0][1].certainty = 0.2
+        result.insert_rooms([[Node(True, 0, 0), Node(True, 0, 1), Node(True, 1, 1), Node(True, 1, 0)], [Node(True, 1, 2), Node(True, 1, 3)]])
+        result.printGridCertainty()
+        self.assertEqual(expected, result)
+
 
 if __name__ == '__main__':
     unittest.main()
