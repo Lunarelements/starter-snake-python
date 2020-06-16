@@ -1,11 +1,7 @@
 import os
-import random
 import cherrypy
 import battlesnake
-from node import Node
 from grid import Grid
-import pathfinding
-
 
 """
 This is a simple Battlesnake server written in Python.
@@ -31,7 +27,7 @@ class Battlesnake(object):
     @cherrypy.expose
     @cherrypy.tools.json_in()
     def start(self):
-        # This function is called everytime your snake is entered into a game.
+        # This function is called every time your snake is entered into a game.
         # cherrypy.request.json contains information about the game that's about to be played.
         data = cherrypy.request.json
 
@@ -46,48 +42,27 @@ class Battlesnake(object):
         # Valid moves are "up", "down", "left", or "right".
         data = cherrypy.request.json
 
-        # Data structure holds head, body, then tail
-        your_body = data["you"]["body"]
-        your_head = data["you"]["head"]
+        print(f"Data in move is: {data}")
+        body = data["you"]["body"]
+        head = data["you"]["head"]
         board = data["board"]
         snakes = board["snakes"]
-        print(f"Data in move is: {data}")
 
         # Create a grid of nodes for to represent the map
         board_grid = Grid(board["width"], board["height"])
-
         # Insert the snakes so that we know where we can't go
         board_grid.insert_snakes(snakes)
 
-        rooms = []
-        food_paths = []
+        strategy = "normal"
 
-        # Run pathfinding algorith on every food point and pick the shortest one
-        # if data["you"]["health"] < 30:
-        for food in board["food"]:
-            path = pathfinding.find_path(board_grid, board_grid.grid[your_head["y"]][your_head["x"]], board_grid.grid[food["y"]][food["x"]])
-            if path is not None:
-                food_paths.append(path)
-        
-        board_grid.insert_paths(food_paths)
-        print(f"Current certainty after food:")
-        board_grid.printGridCertainty()
+        if strategy == "normal":
+            battlesnake.strategy_normal(board, board_grid, head, body)
 
-        moves = battlesnake.generate_possible_moves(your_body, board["width"], board["height"])
-        for move in moves:
-            rooms.append(pathfinding.find_room(board_grid, board_grid.grid[move.y][move.x], []))
-
-        board_grid.insert_rooms(rooms)
-        print(f"Current certainty after room:")
-        board_grid.printGridCertainty()
-
-        best_node = board_grid.pick_move(board_grid.grid[your_head["y"]][your_head["x"]])
-        
-        final_move = best_node.get_direction(your_head)
+        best_node = board_grid.pick_move(board_grid.grid[head["y"]][head["x"]])
+        final_move = best_node.get_direction(head)
         print(f"FINAL MOVE: {final_move}")
 
         return {"move": final_move, "shout": "All your base are belong to us."}
-
 
     @cherrypy.expose
     @cherrypy.tools.json_in()
@@ -103,7 +78,7 @@ if __name__ == "__main__":
     server = Battlesnake()
     cherrypy.config.update({"server.socket_host": "0.0.0.0"})
     cherrypy.config.update(
-        {"server.socket_port": int(os.environ.get("PORT", "8080")),}
+        {"server.socket_port": int(os.environ.get("PORT", "8080")), }
     )
     print("Starting Battlesnake Server...")
     cherrypy.quickstart(server)
